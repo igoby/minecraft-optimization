@@ -392,7 +392,7 @@ Good starting values:
           nearest-bed-sensor: 16
 ```
 
-Radius within which villagers will search for job site blocks and a bed. This significantly boosts performance with large amount of villagers, but will prevent them from detecting job site blocks or beds that are further away than set value.
+Radius within which villagers will search for job site blocks and beds. This significantly boosts performance with large amount of villagers, but will prevent them from detecting job site blocks or beds that are further away than set value.
 
 ---
 

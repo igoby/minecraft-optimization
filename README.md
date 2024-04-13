@@ -385,9 +385,14 @@ Lobotomized villagers are stripped from their AI and only restock their offers e
 
 #### villager.search-radius
 
-`Good starting value: 16`
+```
+Good starting values:
 
-Radius within which villagers will search for a bed. This significantly boosts performance with large amount of villagers, but wil prevent them from detecting beds that are further away than set value.
+          acquire-poi: 16
+          nearest-bed-sensor: 16
+```
+
+Radius within which villagers will search for job site blocks and a bed. This significantly boosts performance with large amount of villagers, but will prevent them from detecting job site blocks or beds that are further away than set value.
 
 ---
 

@@ -383,6 +383,12 @@ This option can disable portal usage of all entities besides the player. This pr
 
 Lobotomized villagers are stripped from their AI and only restock their offers every so often. Enabling this will lobotomize villagers that are unable to pathfind to their destination. Freeing them should unlobotomize them.
 
+#### villager.search-radius
+
+`Good starting value: 16`
+
+Radius within which villagers will search for a bed. This significantly boosts performance with large amount of villagers, but wil prevent them from detecting beds that are further away than set value.
+
 ---
 
 ## Misc

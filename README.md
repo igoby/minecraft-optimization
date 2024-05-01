@@ -577,7 +577,7 @@ If this option is greater that `0`, players above the set y level will be damage
 ---
 
 # Java startup flags
-[Vanilla Minecraft and Minecraft server software in version 1.19 requires Java 17 or higher](https://docs.papermc.io/java-install-update). Oracle has changed their licensing, and there is no longer a compelling reason to get your java from them. Recommended vendors are [Adoptium](https://adoptium.net/) and [Amazon Corretto](https://aws.amazon.com/corretto/). Alternative JVM implementations such as OpenJ9 or GraalVM can work, however they are not supported by Paper and have been known to cause issues, therefore they are not currently recommended.
+[Vanilla Minecraft and Minecraft server software in version 1.20.5+ requires Java 21 or higher](https://docs.papermc.io/java-install-update). Oracle has changed their licensing, and there is no longer a compelling reason to get your java from them. Recommended vendors are [Adoptium](https://adoptium.net/) and [Amazon Corretto](https://aws.amazon.com/corretto/). Alternative JVM implementations such as OpenJ9 or GraalVM can work, however they are not supported by Paper and have been known to cause issues, therefore they are not currently recommended.
 
 Your garbage collector can be configured to reduce lag spikes caused by big garbage collector tasks. You can find startup flags optimized for Minecraft servers [here](https://docs.papermc.io/paper/aikars-flags) [`SOG`]. Keep in mind that this recommendation will not work on alternative JVM implementations.
 It's recommended to use the [flags.sh](https://flags.sh) startup flags generator to get the correct startup flags for your server
@@ -614,11 +614,10 @@ To get Timings of your server, you just need to execute the `/timings paste` com
 To see how to fix exploits that can cause lag spikes or crashes on a Minecraft server, refer to [here](https://github.com/YouHaveTrouble/minecraft-exploits-and-how-to-fix-them).
 
 [`SOG`]: https://www.spigotmc.org/threads/guide-server-optimization%E2%9A%A1.283181/
-[server.properties]: https://minecraft.wiki/w/Server.properties
-[bukkit.yml]: https://bukkit.fandom.com/wiki/Bukkit.yml
-[spigot.yml]: https://www.spigotmc.org/wiki/spigot-configuration/
+[server.properties]: https://docs.papermc.io/paper/reference/server-properties
+[bukkit.yml]: https://docs.papermc.io/paper/reference/bukkit-configuration
+[spigot.yml]: https://docs.papermc.io/paper/reference/spigot-configuration
 [paper-global configuration]: https://docs.papermc.io/paper/reference/global-configuration
 [paper-world configuration]: https://docs.papermc.io/paper/reference/world-configuration
 [purpur.yml]: https://purpurmc.org/docs/Configuration/
 [pufferfish.yml]: https://docs.pufferfish.host/setup/pufferfish-fork-configuration/
-[Petal]: https://github.com/Bloom-host/Petal

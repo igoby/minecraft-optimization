@@ -1,97 +1,97 @@
-# Minecraft server optimization guide
+# 我的世界服务器优化指南 - Minecraft server optimization guide
 
-Note for users that are on vanilla, Fabric or Spigot (or anything below Paper) - go to your server.properties and change `sync-chunk-writes` to `false`. This option is forcibly set to false on Paper and its forks, but on other server implementations you need to switch this to false manually. This allows the server to save chunks off the main thread, lessening the load on the main tick loop.
+对于使用原版Vanilla、Fabric或Spigot（或任何早于Paper的版本）的用户，请在server.properties文件中将`sync-chunk-writes`更改为`false`。这个选项在Paper及其分支中会被强制设置为false，但在一些服务器核心中，你需要手动将其更改为false。这允许服务器在主线程之外保存区块，从而减轻主线程的负担。
 
-Guide for version 1.20. Some things may still apply to 1.15 - 1.19.
+本指南针对1.20. 但一些优化项也可用于 1.15 - 1.19。
 
-Based on [this guide](https://www.spigotmc.org/threads/guide-server-optimization%E2%9A%A1.283181/) and other sources (all of them are linked throughout the guide when relevant).
+本指南基于 [此文](https://www.spigotmc.org/threads/guide-server-optimization%E2%9A%A1.283181/) 以及其他资料来源（所有相关资料在本指南中均有链接）。
 
-Use the table of contents located above (next to `README.md`) to easily navigate throughout this guide.
 
-# Intro
-There will never be a guide that will give you perfect results. Each server has their own needs and limits on how much you can or are willing to sacrifice. Tinkering around with the options to fine tune them to your servers needs is what it's all about. This guide only aims to help you understand what options have impact on performance and what exactly they change. If you think you found inaccurate information within this guide, you're free to open an issue or set up a pull request to correct it.
+# 前言
+永远不会有一个指南能带来最完美的结果。每个服务器都有自己的需求和限制。根据你的服务器需求对选项进行微调，这才是关键所在。本指南的目的只是帮助你了解哪些选项会对性能产生影响，以及它们究竟会改变什么。如果您认为本指南中的信息或翻译不准确，可以提出Issues或创建Pull requests来更正。
 
-# Preparations
+# 准备
 
-## Server JAR
-Your choice of server software can make a huge difference in performance and API possibilities. There are currently multiple viable popular server JARs, but there are also a few that you should stay away from for various reasons.
+## 服务器核心JAR
+服务器核心的选择会对性能和API接口的可用性造成很大影响。目前有很多种主流的服务器核心，但也有一些核心出于各种原因应该避免使用。
 
-Recommended top picks:
-* [Paper](https://github.com/PaperMC/Paper) - The most popular server software that aims to improve performance while fixing gameplay and mechanics inconsistencies.
-* [Pufferfish](https://github.com/pufferfish-gg/Pufferfish) - Paper fork that aims to further improve server performance.
-* [Purpur](https://github.com/PurpurMC/Purpur) - Pufferfish fork focused on features and the freedom of customization.
+推荐:
+* [Paper](https://github.com/PaperMC/Paper) - 最常用的服务器核心，旨在提高性能，同时修复游戏和机制不一致的问题。
+* [Pufferfish](https://github.com/pufferfish-gg/Pufferfish) - Paper 分支，进一步提高服务器性能。
+* [Purpur](https://github.com/PurpurMC/Purpur) - Pufferfish 分支， 旨在提高服务器性能和高度自定义配置。
 
-You should stay away from:
-* Any paid server JAR that claims async anything - 99.99% chance of being a scam.
-* Bukkit/CraftBukkit/Spigot - Extremely outdated in terms of performance compared to other server software you have access to.
-* Any plugin/software that enables/disables/reloads plugins on runtime. See [this section](#plugins-enablingdisabling-other-plugins) to understand why.
-* Many forks further downstream from Pufferfish or Purpur will encounter instability and other issues. If you're seeking more performance gains, optimize your server or invest in a personal private fork.
+你应该远离:
+* 任何声称完全异步的付费服务器核心 - 99.99%是骗局。
+* Bukkit/CraftBukkit/Spigot - 远古核心，性能过时。
+* 任何插件或软件，用于热加载/卸载插件。 请阅读 [此文](#plugins-enablingdisabling-other-plugins) 来了解为何。
+* 许多从Pufferfish或Purpur分支出来的核心可能会遇到不稳定性和其他问题。如果您想要更多的性能提升，可以尝试优化您的服务器或自行编写分支。
 
-## Map pregen
-Map pregeneration, thanks to various optimizations to chunk generation added over the years is now only useful on servers with terrible, single threaded, or limited CPUs. Though, pregeneration is commonly used to generate chunks for world-map plugins such as Pl3xMap or Dynmap.
+## 地图/区块预生成
 
-If you still want to pregen the world, you can use a plugin such as [Chunky](https://github.com/pop4959/Chunky) to do it. Make sure to set up a world border so your players don't generate new chunks! Note that pregenning can sometimes take hours depending on the radius you set in the pregen plugin. Keep in mind that with Paper and above your tps will not be affected by chunk loading, but the speed of loading chunks can significantly slow down when your server's cpu is overloaded.
+由于游戏多年来对区块生成进行了各种优化，地图预生成仅对使用单线程的或低性能CPU的服务器有较大作用。预生成还通常用于为Pl3xMap或Dynmap之类的世界地图插件生成区块。
 
-It's key to remember that the overworld, nether and the end have separate world borders that need to be set up for each world. The nether dimension is 8x smaller than the overworld (if not modified with a datapack), so if you set the size wrong your players might end up outside of the world border!
+如果你仍然想预生成世界，可以使用[Chunky](https://github.com/pop4959/Chunky)之类的插件。确保设置一个世界边界，以防玩家生成新的区块！请注意，根据你在预生成插件中设置的生成半径，预生成可能需要数小时。请记住，使用Paper及其分支时，你的TPS不会受到区块加载的影响，但当服务器的CPU过载时，加载区块的速度可能会显著减慢。
 
-**Make sure to set up a vanilla world border (`/worldborder set [diameter]`), as it limits certain functionalities such as lookup range for treasure maps that can cause lag spikes.**
+请记住，主世界、下界和末地都应该有独立的世界边界。下界维度比主世界小 8 倍（如果没有用数据包修改），所以如果你设置了错误的边界大小，你的玩家可能会卡出世界边界！
 
-# Configurations
+**请确保你设置了原版世界边界 (`/worldborder set [diameter]`), 它会限制一些卡顿因素包括在边界之外查找藏宝图宝藏.**
 
-## Networking
+# 核心配置文件
+
+## 网络项
 
 ### [server.properties]
 
 #### network-compression-threshold
 
-`Good starting value: 256`
+`推荐值: 256`
 
-This allows you to set the cap for the size of a packet before the server attempts to compress it. Setting it higher can save some CPU resources at the cost of bandwidth, and setting it to -1 disables it. Setting this higher may also hurt clients with slower network connections. If your server is in a network with a proxy or on the same machine (with less than 2 ms ping), disabling this (-1) will be beneficial, since internal network speeds can usually handle the additional uncompressed traffic.
+当一个数据包的大小达到该值，服务器就会压缩它。设置得更高可以节省一些 CPU 资源，但会增加带宽占用，将其设置为 -1 会禁用它。设置的太高有可能会影响到网速较慢的玩家。 如果您的服务器位于具有代理的网络中或在同一台计算机上（ping 值小于 2 毫秒），则禁用（-1）将是有益的，因为内部网速通常可以处理额外的未压缩流量。
 
 ### [purpur.yml]
 
 #### use-alternate-keepalive
 
-`Good starting value: true`
+`推荐值: true`
 
-You can enable Purpur's alternate keepalive system so players with bad connection don't get timed out as often. Has known incompatibility with TCPShield.
+可以启用 Purpur 的心跳检测，这样网络情况较差的玩家就不会经常超时。已知与 TCPShield 不兼容。
 
-> Enabling this sends a keepalive packet once per second to a player, and only kicks for timeout if none of them were responded to in 30 seconds. Responding to any of them in any order will keep the player connected. AKA, it won't kick your players because 1 packet gets dropped somewhere along the lines  
+> 启用此功能后，每秒向玩家发送一次 keepalive 包，玩家在 30 秒内未响应才会超时。玩家以任何顺序响应都不会超时。 
 ~ https://purpurmc.org/docs/Configuration/#use-alternate-keepalive
 
 ---
 
-## Chunks
+## 区块生成项
 
 ### [server.properties]
 
-#### simulation-distance
+#### simulation-distance 模拟距离
 
-`Good starting value: 4`
+`推荐值: 4`
 
-Simulation distance is distance in chunks around the player that the server will tick. Essentially the distance from the player that things will happen. This includes furnaces smelting, crops and saplings growing, etc. This is an option you want to purposefully set low, somewhere around `3` or `4`, because of the existence of `view-distance`. This allows to load more chunks without ticking them. This effectively allows players to see further without the same performance impact.
+这是服务器开始计算各种游戏机制的距离（以区块为单位）。 这包括熔炉燃烧或作物生长等等。 您或许该将此值设低， 比如`3` 或`4`， 因为还存在着`view-distance`项。 这允许服务器加载不计算机制的假区块。可以让玩家在不影响性能的情况下看得更远。
 
-#### view-distance
+#### view-distance 视距
 
-`Good starting value: 7`
+`推荐值: 7`
 
-This is the distance in chunks that will be sent to players, similar to no-tick-view-distance from paper.
+这是玩家能看到的距离（以区块为单位），类似于paper里的`no-tick-view-distance`。
 
-The total view distance will be equal to the greatest value between `simulation-distance` and `view-distance`. For example, if the simulation distance is set to 4, and the view distance is 12, the total distance sent to the client will be 12 chunks.
+实际总距离为`simulation-distance`和`view-distance`的最大值。 比如, 模拟距离是4 ，视距是12，那么玩家能看到的实际区块距离就是12。
 
 ### [spigot.yml]
 
 #### view-distance
 
-`Good starting value: default`
+`推荐值: default`
 
-This value overwrites server.properties one if not set to `default`. You should keep it default to have both simulation and view distance in one place for easier management.
+如果不是`default`，此项将覆盖 server.properties。
 
 ### [paper-world configuration]
 
 #### delay-chunk-unloads-by
 
-`Good starting value: 10s`
+`推荐值: 10s`
 
 This option allows you to configure how long chunks will stay loaded after a player leaves. This helps to not constantly load and unload the same chunks when a player moves back and forth. Too high values can result in way too many chunks being loaded at once. In areas that are frequently teleported to and loaded, consider keeping the area permanently loaded. This will be lighter for your server than constantly loading and unloading chunks.
 

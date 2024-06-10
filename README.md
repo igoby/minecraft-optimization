@@ -54,7 +54,7 @@
 
 `推荐值: true`
 
-可以启用 Purpur 的心跳检测，这样网络情况较差的玩家就不会经常超时。已知与 TCPShield 不兼容。
+此项可以启用 Purpur 的心跳检测，这样网络情况较差的玩家就不会经常超时。已知与 TCPShield 不兼容。
 
 > 启用此功能后，每秒向玩家发送一次 keepalive 包，玩家在 30 秒内未响应才会超时。玩家以任何顺序响应都不会超时。 
 ~ https://purpurmc.org/docs/Configuration/#use-alternate-keepalive
@@ -65,17 +65,17 @@
 
 ### [server.properties]
 
-#### simulation-distance 模拟距离
+#### simulation-distance  模拟距离
 
 `推荐值: 4`
 
-这是服务器开始计算各种游戏机制的距离（以区块为单位）。 这包括熔炉燃烧或作物生长等等。 您或许该将此值设低， 比如`3` 或`4`， 因为还存在着`view-distance`项。 这允许服务器加载不计算机制的假区块。可以让玩家在不影响性能的情况下看得更远。
+此项为服务器开始计算各种游戏机制的距离（以区块为单位）。 这包括熔炉燃烧或作物生长等等。 您或许该将此值设低， 比如`3` 或`4`， 因为还存在着`view-distance`项。 这允许服务器加载不计算机制的假区块。可以让玩家在不影响性能的情况下看得更远。
 
-#### view-distance 视距
+#### view-distance  视距
 
 `推荐值: 7`
 
-这是玩家能看到的距离（以区块为单位），类似于paper里的`no-tick-view-distance`。
+此项为玩家能看到的距离（以区块为单位），类似于paper里的`no-tick-view-distance`。
 
 实际总距离为`simulation-distance`和`view-distance`的最大值。 比如, 模拟距离是4 ，视距是12，那么玩家能看到的实际区块距离就是12。
 
@@ -85,7 +85,7 @@
 
 `推荐值: default`
 
-如果不是`default`，此项将覆盖 server.properties。
+如果不设置为`default`，此项将覆盖 server.properties。
 
 ### [paper-world configuration]
 
@@ -93,24 +93,24 @@
 
 `推荐值: 10s`
 
-This option allows you to configure how long chunks will stay loaded after a player leaves. This helps to not constantly load and unload the same chunks when a player moves back and forth. Too high values can result in way too many chunks being loaded at once. In areas that are frequently teleported to and loaded, consider keeping the area permanently loaded. This will be lighter for your server than constantly loading and unloading chunks.
+此项允许配置玩家离开后，区块保持加载的时间。这有助于避免玩家来回移动时，服务器不断加载和卸载相同的区块。过高的值可能会导致一次加载太多区块。在玩家频繁传送或加载的区域，可以考虑让该区域永久加载。这可以减轻服务器不小的负担。
 
 #### max-auto-save-chunks-per-tick
 
-`Good starting value: 8`
+`推荐值: 8`
 
-Lets you slow down incremental world saving by spreading the task over time even more for better average performance. You might want to set this higher than `8` with more than 20-30 players. If incremental save can't finish in time then bukkit will automatically save leftover chunks at once and begin the process again.
+通过降低世界区块保存速度来提高平均性能。当玩家超过 20-30 人时，您可能希望将其设置高于`8`。如果一个tick加载区块超过本设定值，bukkit 将立刻保存剩余的区块并重新开始下一个保存周期。
 
 #### prevent-moving-into-unloaded-chunks
 
-`Good starting value: true`
+`推荐值: true`
 
-When enabled, prevents players from moving into unloaded chunks and causing sync loads that bog down the main thread causing lag. The probability of a player stumbling into an unloaded chunk is higher the lower your view-distance is.
+防止玩家进入未加载的区块，以避免同步加载区块造成的主线程卡顿。view-distance视距越小，玩家进入未加载区块的可能性就越大。
 
 #### entity-per-chunk-save-limit
 
 ```
-Good starting values:
+推荐值:
 
     area_effect_cloud: 8
     arrow: 16
@@ -132,15 +132,15 @@ Good starting values:
     wither_skull: 4
 ```
 
-With the help of this entry you can set limits to how many entities of specified type can be saved. You should provide a limit for each projectile at least to avoid issues with massive amounts of projectiles being saved and your server crashing on loading that. You can put any entity id here, see the minecraft wiki to find IDs of entities. Please adjust the limit to your liking. Suggested value for all projectiles is around `10`. You can also add other entities by their type names to that list. This config option is not designed to prevent players from making large mob farms.
+此项可以设置可保存的指定类型实体数量限制。您应该为每种弹射物规定一个限制，以避免保存大量弹射物时服务器崩溃。您可以在此处输入任何实体 ID，请参阅 Minecraft Wiki 以查找实体 ID。请根据您的喜好调整限制。所有弹射物的建议值约为`10`。您还可以根据名称将其他实体添加到该列表中。此项并不适用于阻止玩家建造大型生物农场。
 
 ### [pufferfish.yml]
 
 #### max-loads-per-projectile
 
-`Good starting value: 8`
+`推荐值: 8`
 
-Specifies the maximum amount of chunks a projectile can load in its lifetime. Decreasing will reduce chunk loads caused by entity projectiles, but could cause issues with tridents, enderpearls, etc.
+此项指定弹射物可以加载的最大区块数量。可减少弹射物造成的区块负载，但可能会导致末影珍珠等出现问题。
 
 ---
 
@@ -151,7 +151,7 @@ Specifies the maximum amount of chunks a projectile can load in its lifetime. De
 #### spawn-limits
 
 ```
-Good starting values:
+推荐值:
 
     monsters: 20
     animals: 5
@@ -162,12 +162,12 @@ Good starting values:
     ambient: 1
 ```
 
-The math of limiting mobs is `[playercount] * [limit]`, where "playercount" is current amount of players on the server. Logically, the smaller the numbers are, the less mobs you're gonna see. `per-player-mob-spawn` applies an additional limit to this, ensuring mobs are equally distributed between players. Reducing this is a double-edged sword; yes, your server has less work to do, but in some gamemodes natural-spawning mobs are a big part of a gameplay. You can go as low as 20 or less if you adjust `mob-spawn-range` properly. Setting `mob-spawn-range` lower will make it feel as if there are more mobs around each player. If you are using Paper, you can set mob limits per world in [paper-world configuration].
+生物生成的最大数量为 `[playercount] * [spawn limits]`，"playercount" 为玩家在线数量。 逻辑上, 该项数值越小, 玩家能遇到的生物就越少。 此项能确保每个玩家周围的生物数量是平均的。 这是一把双刃剑; 较低的值会减轻服务器负担，但在某些游戏模式中，自然生成的生物是游戏玩法的重要组成部分。 如果你适当的调整 `mob-spawn-range`，此项甚至还可以小于20。 较小的`mob-spawn-range`值会让人感觉每个玩家周围都有更多生物。 如果你使用paper或分支，你还可以在 [paper-world configuration] 中设置并覆盖此项。
 
 #### ticks-per
 
 ```
-Good starting values:
+推荐值:
 
     monster-spawns: 10
     animal-spawns: 400
@@ -178,20 +178,20 @@ Good starting values:
     ambient-spawns: 400
 ```
 
-This option sets how often (in ticks) the server attempts to spawn certain living entities. Water/ambient mobs do not need to spawn each tick as they don't usually get killed that quickly. As for monsters: Slightly increasing the time between spawns should not impact spawn rates even in mob farms. In most cases all of the values under this option should be higher than `1`. Setting this higher also allows your server to better cope with areas where mob spawning is disabled.
+此项限制服务器每tick尝试生成特定实体的频率。 水生生物或环境生物（热带鱼或蝙蝠）不需要每tick都生成，因为它们通常不会那么快被杀死。对于怪物: 稍微增加间隔不会影响生成率，即使对于刷怪塔也是如此。 在大多数情况下，所有的值应该大于`1`。 将其设置得更高还可以让您的服务器更好地应对禁止怪物生成的区域。
 
 ### [spigot.yml]
 
 #### mob-spawn-range
 
-`Good starting value: 3`
+`推荐值: 3`
 
-Allows you to reduce the range (in chunks) of where mobs will spawn around the player. Depending on your server's gamemode and its playercount you might want to reduce this value along with [bukkit.yml]'s `spawn-limits`. Setting this lower will make it feel as if there are more mobs around you. This should be lower than or equal to your simulation distance, and never larger than your hard despawn range / 16.
+此项可以限制玩家周围生成怪物的范围 (区块为单位)。 考虑到服务器的游戏玩法和在线人数，你或许应该一并调整 [bukkit.yml] 里的`spawn-limits`。 将其设置得较低会让你感觉周围有更多的怪物。 这应该低于或等于你的`simulation-distance 模拟距离`，并且永远不要大于你的`despawn-ranges/16`。
 
 #### entity-activation-range
 
 ```
-Good starting values:
+推荐值:
 
       animals: 16
       monsters: 24
@@ -202,12 +202,12 @@ Good starting values:
       flying-monsters: 48
 ```
 
-You can set what distance from the player an entity should be for it to tick (do stuff). Reducing those values helps performance, but may result in irresponsive mobs until the player gets really close to them. Lowering this too far can break certain mob farms; iron farms being the most common victim.
+此项可以设置实体的激活AI距离。降低这些值有助于提高性能，但可能会导致怪物反应迟钝。将此值降低太多可能会破坏某些生物农场；比如刷铁机。
 
 #### entity-tracking-range
 
 ```
-Good starting values:
+推荐值:
 
       players: 48
       animals: 48
@@ -220,13 +220,13 @@ This is distance in blocks from which entities will be visible. They just won't 
 
 #### tick-inactive-villagers
 
-`Good starting value: false`
+`推荐值: false`
 
 This allows you to control whether villagers should be ticked outside of the activation range. This will make villagers proceed as normal and ignore the activation range. Disabling this will help performance, but might be confusing for players in certain situations. This may cause issues with iron farms and trade restocking.
 
 #### nerf-spawner-mobs
 
-`Good starting value: true`
+`推荐值: true`
 
 You can make mobs spawned by a monster spawner have no AI. Nerfed mobs will do nothing. You can make them jump while in water by changing `spawner-nerfed-mobs-should-jump` to `true` in [paper-world configuration].
 
@@ -235,7 +235,7 @@ You can make mobs spawned by a monster spawner have no AI. Nerfed mobs will do n
 #### despawn-ranges
 
 ```
-Good starting values:
+推荐值:
 
       ambient:
         hard: 72
@@ -267,44 +267,44 @@ Lets you adjust entity despawn ranges (in blocks). Lower those values to clear t
 
 #### per-player-mob-spawns
 
-`Good starting value: true`
+`推荐值: true`
 
 This option decides if mob spawns should account for how many mobs are around target player already. You can bypass a lot of issues regarding mob spawns being inconsistent due to players creating farms that take up the entire mobcap. This will enable a more singleplayer-like spawning experience, allowing you to set lower `spawn-limits`. Enabling this does come with a very slight performance impact, however it's impact is overshadowed by the improvements in `spawn-limits` it allows.
 
 #### max-entity-collisions
 
-`Good starting value: 2`
+`推荐值: 2`
 
 Overwrites option with the same name in [spigot.yml]. It lets you decide how many collisions one entity can process at once. Value of `0` will cause inability to push other entities, including players. Value of `2` should be enough in most cases. It's worth noting that this will render maxEntityCramming gamerule useless if its value is over the value of this config option.
 
 #### update-pathfinding-on-block-update
 
-`Good starting value: false`
+`推荐值: false`
 
 Disabling this will result in less pathfinding being done, increasing performance. In some cases this will cause mobs to appear more laggy; They will just passively update their path every 5 ticks (0.25 sec).
 
 #### fix-climbing-bypassing-cramming-rule
 
-`Good starting value: true`
+`推荐值: true`
 
 Enabling this will fix entities not being affected by cramming while climbing. This will prevent absurd amounts of mobs being stacked in small spaces even if they're climbing (spiders).
 
 #### armor-stands.tick
 
-`Good starting value: false`
+`推荐值: false`
 
 In most cases you can safely set this to `false`. If you're using armor stands or any plugins that modify their behavior and you experience issues, re-enable it. This will prevent armor stands from being pushed by water or being affected by gravity.
 
 #### armor-stands.do-collision-entity-lookups
 
-`Good starting value: false`
+`推荐值: false`
 
 Here you can disable armor stand collisions. This will help if you have a lot of armor stands and don't need them colliding with anything.
 
 #### tick-rates
 
 ```
-Good starting values:
+推荐值:
 
   behavior:
     villager:
@@ -327,37 +327,37 @@ This decides how often specified behaviors and sensors are being fired in ticks.
 
 #### dab.enabled
 
-`Good starting value: true`
+`推荐值: true`
 
 DAB (dynamic activation of brain) reduces the amount an entity is ticked the further away it is from players. DAB works on a gradient instead of a hard cutoff like EAR. Instead of fully ticking close entities and barely ticking far entities, DAB will reduce the amount an entity is ticked based on the result of a calculation influenced by [dab.activation-dist-mod](#dabactivation-dist-mod).
 
 #### dab.max-tick-freq
 
-`Good starting value: 20`
+`推荐值: 20`
 
 Defines the slowest amount entities farthest from players will be ticked. Increasing this value may improve the performance of entities far from view but may break farms or greatly nerf mob behavior. If enabling DAB breaks mob farms, try decreasing this value.
 
 #### dab.activation-dist-mod
 
-`Good starting value: 7`
+`推荐值: 7`
 
 Controls the gradient in which mobs are ticked. Decreasing this will activate DAB closer to players, improving DAB's performance gains, but will affect how entities interact with their surroundings and may break mob farms. If enabling DAB breaks mob farms, try increasing this value.
 
 #### enable-async-mob-spawning
 
-`Good starting value: true`
+`推荐值: true`
 
 If asynchronous mob spawning should be enabled. For this to work, the Paper's per-player-mob-spawns setting must be enabled. This option does not actually spawn mobs asynchronous, but does offload much of the computational effort involved with spawning new mobs to a different thread. Enabling this option should not be noticeable on vanilla gameplay.
 
 #### enable-suffocation-optimization
 
-`Good starting value: true`
+`推荐值: true`
 
 This option optimises a suffocation check (the check to see if a mob is inside a block and if they should take suffocation damage), by rate limiting the check to the damage timeout. This optimisation should be impossible to notice unless you're an extremely technical player who's using tick-precise timing to kill an entity at exactly the right time by suffocation.
 
 #### inactive-goal-selector-throttle
 
-`Good starting value: true`
+`推荐值: true`
 
 Throttles the AI goal selector in entity inactive ticks, causing the inactive entities to update their goal selector every 20 ticks instead of every tick. Can improve performance by a few percent, and has minor gameplay implications.
 
@@ -365,19 +365,19 @@ Throttles the AI goal selector in entity inactive ticks, causing the inactive en
 
 #### zombie.aggressive-towards-villager-when-lagging
 
-`Good starting value: false`
+`推荐值: false`
 
 Enabling this will cause zombies to stop targeting villagers if the server is below the tps threshold set with `lagging-threshold` in [purpur.yml].
 
 #### entities-can-use-portals
 
-`Good starting value: false`
+`推荐值: false`
 
 This option can disable portal usage of all entities besides the player. This prevents entities from loading chunks by changing worlds which is handled on the main thread. This has the side effect of entities not being able to go through portals.
 
 #### villager.lobotomize.enabled
 
-`Good starting value: true`
+`推荐值: true`
 
 > This should only be enabled if villagers are causing lag! Otherwise, the pathfinding checks may decrease performance.
 
@@ -386,7 +386,7 @@ Lobotomized villagers are stripped from their AI and only restock their offers e
 #### villager.search-radius
 
 ```
-Good starting values:
+推荐值:
 
           acquire-poi: 16
           nearest-bed-sensor: 16
@@ -403,7 +403,7 @@ Radius within which villagers will search for job site blocks and beds. This sig
 #### merge-radius
 
 ```
-Good starting values:
+推荐值:
 
       item: 3.5
       exp: 4.0
@@ -413,13 +413,13 @@ This decides the distance between the items and exp orbs to be merged, reducing 
 
 #### hopper-transfer
 
-`Good starting value: 8`
+`推荐值: 8`
 
 Time in ticks that hoppers will wait to move an item. Increasing this will help improve performance if there are a lot of hoppers on your server, but will break hopper-based clocks and possibly item sorting systems if set too high.
 
 #### hopper-check
 
-`Good starting value: 8`
+`推荐值: 8`
 
 Time in ticks between hoppers checking for an item above them or in the inventory above them. Increasing this will help performance if there are a lot of hoppers on your server, but will break hopper-based clocks and item sorting systems relying on water streams.
 
@@ -428,7 +428,7 @@ Time in ticks between hoppers checking for an item above them or in the inventor
 #### alt-item-despawn-rate
 
 ```
-Good starting values:
+推荐值:
 
       enabled: true
       items:
@@ -464,7 +464,7 @@ This list lets you set alternative time (in ticks) to despawn certain types of d
 
 #### redstone-implementation
 
-`Good starting value: ALTERNATE_CURRENT`
+`推荐值: ALTERNATE_CURRENT`
 
 Replaces the redstone system with faster and alternative versions that reduce redundant block updates, lowering the amount of logic your server has to calculate. Using a non-vanilla implementation may introduce minor inconsistencies with very technical redstone, but the performance gains far outweigh the possible niche issues. A non-vanilla implementation option may additionally fix other redstone inconsistencies caused by CraftBukkit.
 
@@ -472,38 +472,38 @@ The `ALTERNATE_CURRENT` implementation is based off of the [Alternate Current](h
 
 #### hopper.disable-move-event
 
-`Good starting value: false`
+`推荐值: false`
 
 `InventoryMoveItemEvent` doesn't fire unless there is a plugin actively listening to that event. This means that you only should set this to true if you have such plugin(s) and don't care about them not being able to act on this event. **Do not set to true if you want to use plugins that listen to this event, e.g. protection plugins!**
 
 #### hopper.ignore-occluding-blocks
 
-`Good starting value: true`
+`推荐值: true`
 
 Determines if hoppers will ignore containers inside full blocks, for example hopper minecart inside sand or gravel block. Keeping this enabled will break some contraptions depending on that behavior.
 
 #### tick-rates.mob-spawner
 
-`Good starting value: 2`
+`推荐值: 2`
 
 This option lets you configure how often spawners should be ticked. Higher values mean less lag if you have a lot of spawners, although if set too high (relative to your spawners delay) mob spawn rates will decrease.
 
 #### optimize-explosions
 
-`Good starting value: true`
+`推荐值: true`
 
 Setting this to `true` replaces the vanilla explosion algorithm with a faster one, at a cost of slight inaccuracy when calculating explosion damage. This is usually not noticeable.
 
 #### treasure-maps.enabled
 
-`Good starting value: false`
+`推荐值: false`
 
 Generating treasure maps is extremely expensive and can hang a server if the structure it's trying to locate is in an ungenerated chunk. It's only safe to enable this if you pregenerated your world and set a vanilla world border.
 
 #### treasure-maps.find-already-discovered
 
 ```
-Good starting values:
+推荐值:
       loot-tables: true
       villager-trade: true
 ```
@@ -512,25 +512,25 @@ Default value of this option forces the newly generated maps to look for unexplo
 
 #### tick-rates.grass-spread
 
-`Good starting value: 4`
+`推荐值: 4`
 
 Time in ticks between the server trying to spread grass or mycelium. This will make it so large areas of dirt will take a little longer to turn to grass or mycelium. Setting this to around `4` should work nicely if you want to decrease it without the decreased spread rate being noticeable.
 
 #### tick-rates.container-update
 
-`Good starting value: 1`
+`推荐值: 1`
 
 Time in ticks between container updates. Increasing this might help if container updates cause issues for you (it rarely happens), but makes it easier for players to experience desync when interacting with inventories (ghost items).
 
 #### non-player-arrow-despawn-rate
 
-`Good starting value: 20`
+`推荐值: 20`
 
 Time in ticks after which arrows shot by mobs should disappear after hitting something. Players can't pick these up anyway, so you may as well set this to something like `20` (1 second).
 
 #### creative-arrow-despawn-rate
 
-`Good starting value: 20`
+`推荐值: 20`
 
 Time in ticks after which arrows shot by players in creative mode should disappear after hitting something. Players can't pick these up anyway, so you may as well set this to something like `20` (1 second).
 
@@ -538,7 +538,7 @@ Time in ticks after which arrows shot by players in creative mode should disappe
 
 #### disable-method-profiler
 
-`Good starting value: true`
+`推荐值: true`
 
 This option will disable some additional profiling done by the game. This profiling is not necessary to run in production and can cause additional lag.
 
@@ -546,13 +546,13 @@ This option will disable some additional profiling done by the game. This profil
 
 #### dolphin.disable-treasure-searching
 
-`Good starting value: true`
+`推荐值: true`
 
 Prevents dolphins from performing structure search similar to treasure maps
 
 #### teleport-if-outside-border
 
-`Good starting value: true`
+`推荐值: true`
 
 Allows you to teleport the player to the world spawn if they happen to be outside of the world border. Helpful since the vanilla world border is bypassable and the damage it does to the player can be mitigated.
 
@@ -564,13 +564,13 @@ Allows you to teleport the player to the world spawn if they happen to be outsid
 
 #### anti-xray.enabled
 
-`Good starting value: true`
+`推荐值: true`
 
 Enable this to hide ores from x-rayers. For detailed configuration of this feature check out [Configuring Anti-Xray](https://docs.papermc.io/paper/anti-xray). Enabling this will actually decrease performance, however it is much more efficient than any anti-xray plugin. In most cases the performance impact will be negligible.
 
 #### nether-ceiling-void-damage-height
 
-`Good starting value: 127`
+`推荐值: 127`
 
 If this option is greater that `0`, players above the set y level will be damaged as if they were in the void. This will prevent players from using the nether roof. Vanilla nether is 128 blocks tall, so you should probably set it to `127`. If you modify the height of the nether in any way you should set this to `[your_nether_height] - 1`.
 

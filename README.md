@@ -1,6 +1,6 @@
 # 我的世界服务器优化指南 - Minecraft server optimization guide
 
-对于使用原版Vanilla、Fabric或Spigot（或任何早于Paper的版本）的用户，请在server.properties文件中将`sync-chunk-writes`更改为`false`。这个选项在Paper及其分支中会被强制设置为false，但在一些服务器核心中，你需要手动将其更改为false。这允许服务器在主线程之外保存区块，从而减轻主线程的负担。
+对于使用原版Vanilla、Fabric或Spigot（或任何早于Paper的版本）核心的用户，请在server.properties文件中将`sync-chunk-writes`更改为`false`。 这个选项在Paper及其分支中会被强制设置为false，但在一些服务器核心中，你需要手动将其更改为false。 这允许服务器在主线程之外保存区块，从而减轻主线程的负担。
 
 本指南针对1.20. 但一些优化项也可用于 1.15 - 1.19。
 
@@ -8,7 +8,7 @@
 
 
 # 前言
-永远不会有一个指南能带来最完美的结果。每个服务器都有自己的需求和限制。根据你的服务器需求对选项进行微调，这才是关键所在。本指南的目的只是帮助你了解哪些选项会对性能产生影响，以及它们究竟会改变什么。如果您认为本指南中的信息或翻译不准确，可以提出Issues或创建Pull requests来更正。
+永远不会有一个指南能迎合所有需求。每个服务器都有自己的需求和限制。根据你的服务器需求对选项进行微调，这才是关键所在。本指南的目的只是帮助你了解哪些选项会对性能产生影响，以及它们究竟会改变什么。 如果您认为本指南中的信息或翻译不准确，可以提出Issues或创建Pull requests来更正。
 
 # 准备
 
@@ -36,7 +36,7 @@
 
 **请确保你设置了原版世界边界 (`/worldborder set [diameter]`), 它会限制一些卡顿因素包括在边界之外查找藏宝图宝藏.**
 
-# 核心配置文件
+# 核心配置文件 推荐值仅供参考 推荐值仅供参考 推荐值仅供参考
 
 ## 网络项
 
@@ -132,7 +132,7 @@
     wither_skull: 4
 ```
 
-此项可以设置可保存的指定类型实体数量限制。您应该为每种弹射物规定一个限制，以避免保存大量弹射物时服务器崩溃。您可以在此处输入任何实体 ID，请参阅 Minecraft Wiki 以查找实体 ID。请根据您的喜好调整限制。所有弹射物的建议值约为`10`。您还可以根据名称将其他实体添加到该列表中。此项并不适用于阻止玩家建造大型生物农场。
+此项可以设置可保存的指定类型实体数量限制。您应该为每种弹射物规定一个限制，以避免服务器尝试保存大量弹射物时崩溃。您可以在此处输入任何实体 ID，请参阅 Minecraft Wiki 以查找实体 ID。请根据您的喜好调整限制。所有弹射物的建议值约为`10`。您还可以根据名称将其他实体添加到该列表中。此项并不适用于阻止玩家建造大型生物农场。
 
 ### [pufferfish.yml]
 
@@ -144,7 +144,7 @@
 
 ---
 
-## Mobs
+## 生物生成项
 
 ### [bukkit.yml]
 
@@ -162,7 +162,7 @@
     ambient: 1
 ```
 
-生物生成的最大数量为 `[playercount] * [spawn limits]`，"playercount" 为玩家在线数量。 逻辑上, 该项数值越小, 玩家能遇到的生物就越少。 此项能确保每个玩家周围的生物数量是平均的。 这是一把双刃剑; 较低的值会减轻服务器负担，但在某些游戏模式中，自然生成的生物是游戏玩法的重要组成部分。 如果你适当的调整 `mob-spawn-range`，此项甚至还可以小于20。 较小的`mob-spawn-range`值会让人感觉每个玩家周围都有更多生物。 如果你使用paper或分支，你还可以在 [paper-world configuration] 中设置并覆盖此项。
+生物生成的最大数量为 `[playercount] * [spawn limits]`，"playercount" 为玩家在线数量。 逻辑上, 该项数值越小, 玩家能遇到的生物就越少。 此项能确保每个玩家周围的生物数量是平均的。 这是一把双刃剑; 较低的值会减轻服务器负担，但在某些游戏模式中，自然生成的生物是游戏玩法的重要组成部分。 如果您适当的调整 `mob-spawn-range`，此项甚至还可以小于`20`。 较小的`mob-spawn-range`值会让人感觉每个玩家周围都有更多生物。 如果您使用paper或分支，你还可以在 [paper-world configuration] 中设置并覆盖此项。
 
 #### ticks-per
 
@@ -178,7 +178,7 @@
     ambient-spawns: 400
 ```
 
-此项限制服务器每tick尝试生成特定实体的频率。 水生生物或环境生物（热带鱼或蝙蝠）不需要每tick都生成，因为它们通常不会那么快被杀死。对于怪物: 稍微增加间隔不会影响生成率，即使对于刷怪塔也是如此。 在大多数情况下，所有的值应该大于`1`。 将其设置得更高还可以让您的服务器更好地应对禁止怪物生成的区域。
+此项限制服务器每 tick 尝试生成特定实体的频率。 水生生物或环境生物（热带鱼或蝙蝠）不需要每 tick 都生成，因为它们通常不会那么快被杀死。对于怪物: 稍微增加间隔不会影响生成率，即使对于刷怪塔也是如此。 在大多数情况下，所有的值应该大于`1`。 将其设置得更高还可以让您的服务器更好地应对禁止怪物生成的区域。
 
 ### [spigot.yml]
 
@@ -186,7 +186,7 @@
 
 `推荐值: 3`
 
-此项可以限制玩家周围生成怪物的范围 (区块为单位)。 考虑到服务器的游戏玩法和在线人数，你或许应该一并调整 [bukkit.yml] 里的`spawn-limits`。 将其设置得较低会让你感觉周围有更多的怪物。 这应该低于或等于你的`simulation-distance 模拟距离`，并且永远不要大于你的`despawn-ranges/16`。
+此项可以限制玩家周围生成怪物的范围 (区块为单位)。 考虑到服务器的游戏玩法和在线人数，您或许应该一并调整 [bukkit.yml] 里的`spawn-limits`。 将其设置得较低会让玩家感觉周围有更多的怪物。 这应该低于或等于您的`simulation-distance 模拟距离`，并且永远不要大于您的`despawn-ranges / 16`。
 
 #### entity-activation-range
 
@@ -202,7 +202,7 @@
       flying-monsters: 48
 ```
 
-此项可以设置实体的激活AI距离。降低这些值有助于提高性能，但可能会导致怪物反应迟钝。将此值降低太多可能会破坏某些生物农场；比如刷铁机。
+此项可以设置实体的激活AI距离（方块为单位）。降低这些值有助于提高性能，但可能会导致怪物反应迟钝。将此值降低太多可能会破坏某些生物农场；比如刷铁机。
 
 #### entity-tracking-range
 
@@ -216,19 +216,19 @@
       other: 64
 ```
 
-This is distance in blocks from which entities will be visible. They just won't be sent to players. If set too low this can cause mobs to seem to appear out of nowhere near a player. In the majority of cases this should be higher than your `entity-activation-range`.
+此项可以设置实体的可见范围（方块为单位）。 距离外的实体将不会发送给客户端。 如果设置得太低，这可能会导致怪物突然出现在玩家附近。 此项应该大于`entity-activation-range`的值。
 
 #### tick-inactive-villagers
 
 `推荐值: false`
 
-This allows you to control whether villagers should be ticked outside of the activation range. This will make villagers proceed as normal and ignore the activation range. Disabling this will help performance, but might be confusing for players in certain situations. This may cause issues with iron farms and trade restocking.
+是否应该在实体激活范围之外正常激活村民。 这将使村民正常工作并忽略激活范围。 禁用此功能将有助于提高性能，但在某些情况下会让玩家困惑。 此项还对刷铁机等造成较大影响。
 
 #### nerf-spawner-mobs
 
 `推荐值: true`
 
-You can make mobs spawned by a monster spawner have no AI. Nerfed mobs will do nothing. You can make them jump while in water by changing `spawner-nerfed-mobs-should-jump` to `true` in [paper-world configuration].
+此项可以卸载刷怪笼生成的生物的AI。 被卸载AI的生物将不会做任何事情。 如果想让它们在水中跳跃（用于刷怪塔），只需将 [paper-world configuration] 中`spawner-nerfed-mobs-should-jump`设为`true`。
 
 ### [paper-world configuration]
 
@@ -263,43 +263,43 @@ You can make mobs spawned by a monster spawner have no AI. Nerfed mobs will do n
         soft: 30
 ```
 
-Lets you adjust entity despawn ranges (in blocks). Lower those values to clear the mobs that are far away from the player faster. You should keep soft range around `30` and adjust hard range to a bit more than your actual simulation-distance, so mobs don't immediately despawn when the player goes just beyond the point of a chunk being loaded (this works well because of `delay-chunk-unloads-by` in [paper-world configuration]). When a mob is out of the hard range, it will be instantly despawned. When between the soft and hard range, it will have a random chance of despawning. Your hard range should be larger than your soft range. You should adjust this according to your view distance using `(simulation-distance * 16) + 8`. This partially accounts for chunks that haven't been unloaded yet after player visited them.
+此项可以调整各种生物的消失范围（方块为单位）。降低这些值可以更快地清除远离玩家的生物。 您应该将 soft 软距离设置为约`30`，然后将 hard 硬性距离设置的稍微大于 simulation-distance，这样当玩家刚刚跑出区块时，生物不会立即消失（您可以一并调整 [paper-world configuration] 中的`delay-chunk-unloads-by`）。 当一个生物离开了 hard 距离，该生物会立刻消失。 当一个生物处于 soft 和 hard 距离之间，该生物将有概率消失。 您的 hard 距离应该大于 soft 距离。您应该根据模拟距离调整此项：`(simulation-distance * 16) + 8`。 此项还可能造成玩家经过后，区块不卸载的情况（因为生物还没消失）。
 
 #### per-player-mob-spawns
 
 `推荐值: true`
 
-This option decides if mob spawns should account for how many mobs are around target player already. You can bypass a lot of issues regarding mob spawns being inconsistent due to players creating farms that take up the entire mobcap. This will enable a more singleplayer-like spawning experience, allowing you to set lower `spawn-limits`. Enabling this does come with a very slight performance impact, however it's impact is overshadowed by the improvements in `spawn-limits` it allows.
+该项决定生物生成是否应该考虑玩家周围已有的生物数量。此项可以解决一些生物生成不一致问题，如玩家建造的农场占满生物生成上限。这更像单人游戏的生物生成，允许您设置较低的`spawn-limits`。启用此项会对性能产生轻微影响，但它带来的好处大于其影响。
 
 #### max-entity-collisions
 
 `推荐值: 2`
 
-Overwrites option with the same name in [spigot.yml]. It lets you decide how many collisions one entity can process at once. Value of `0` will cause inability to push other entities, including players. Value of `2` should be enough in most cases. It's worth noting that this will render maxEntityCramming gamerule useless if its value is over the value of this config option.
+覆盖 [spigot.yml] 中的同名项。它让您决定一个实体可以同时处理多少次碰撞。`0`将导致无法推动其他实体，包括玩家。`2`应该可以处理大部分情况。 值得注意的是，这将会破坏 maxEntityCramming gamerule 也就是生物堆叠窒息。
 
 #### update-pathfinding-on-block-update
 
 `推荐值: false`
 
-Disabling this will result in less pathfinding being done, increasing performance. In some cases this will cause mobs to appear more laggy; They will just passively update their path every 5 ticks (0.25 sec).
+禁用此项将减少寻路次数，从而提高性能。在某些情况下，这会导致生物看起来更加迟钝；它们只会每 5 个 tick（0.25 秒）被动更新一次路径。
 
 #### fix-climbing-bypassing-cramming-rule
 
 `推荐值: true`
 
-Enabling this will fix entities not being affected by cramming while climbing. This will prevent absurd amounts of mobs being stacked in small spaces even if they're climbing (spiders).
+是否修复实体在攀爬时不受实体挤压影响的问题。这将防止大量生物在攀爬时堆叠在狭小空间内（例如蜘蛛）。
 
 #### armor-stands.tick
 
 `推荐值: false`
 
-In most cases you can safely set this to `false`. If you're using armor stands or any plugins that modify their behavior and you experience issues, re-enable it. This will prevent armor stands from being pushed by water or being affected by gravity.
+在大部分情况下，将该项设置为`false`是安全的。如果您使用盔甲架或任何相关的插件时遇到了问题，请重新启用它。这将防止盔甲架被水推动或受到重力的影响。
 
 #### armor-stands.do-collision-entity-lookups
 
 `推荐值: false`
 
-Here you can disable armor stand collisions. This will help if you have a lot of armor stands and don't need them colliding with anything.
+是否启用盔甲架碰撞。如果您有很多盔甲架，并且不想它们与任何东西发生碰撞，这将有所帮助。
 
 #### tick-rates
 
@@ -319,9 +319,9 @@ Here you can disable armor stand collisions. This will help if you have a lot of
       nearestlivingentitysensor: 40
 ```
 
-> It is not recommended to change these values from their defaults while [Pufferfish's DAB](#dabenabled) is enabled!
+> 当 [Pufferfish's DAB](#dabenabled) 启用时，不建议修改该项任何默认值。
 
-This decides how often specified behaviors and sensors are being fired in ticks. `acquirepoi` for villagers seems to be the heaviest behavior, so it's been greately increased. Decrease it in case of issues with villagers finding their way around.
+这决定了触发AI行为和传感器的间隔。 `acquirepoi`是村民最频繁的行为, 因此它的间隔已经大大增加了。 如果村民有寻路问题，请减少此项。
 
 ### [pufferfish.yml]
 
@@ -329,37 +329,37 @@ This decides how often specified behaviors and sensors are being fired in ticks.
 
 `推荐值: true`
 
-DAB (dynamic activation of brain) reduces the amount an entity is ticked the further away it is from players. DAB works on a gradient instead of a hard cutoff like EAR. Instead of fully ticking close entities and barely ticking far entities, DAB will reduce the amount an entity is ticked based on the result of a calculation influenced by [dab.activation-dist-mod](#dabactivation-dist-mod).
+DAB（大脑动态激活）会随着实体与玩家距离的增大而减少实体运算次数。 DAB 采用梯度工作，而不是像`entity-activation-range`那样采用定值。 DAB 基于此结果 [dab.activation-dist-mod](#dabactivation-dist-mod)。
 
 #### dab.max-tick-freq
 
 `推荐值: 20`
 
-Defines the slowest amount entities farthest from players will be ticked. Increasing this value may improve the performance of entities far from view but may break farms or greatly nerf mob behavior. If enabling DAB breaks mob farms, try decreasing this value.
+无论 DAB 的结果如何，实体的 tick 都不会低于此值。如果将其设置为 20，则无论实体有多远，它每秒都会被计算至少一次。增加此值可能会提高远距离实体的性能，但可能会破坏农场或大大削弱生物行为。如果启用 DAB 会破坏刷怪塔，请尝试降低此值。
 
 #### dab.activation-dist-mod
 
-`推荐值: 7`
+`推荐值: 8 或 7`
 
-Controls the gradient in which mobs are ticked. Decreasing this will activate DAB closer to players, improving DAB's performance gains, but will affect how entities interact with their surroundings and may break mob farms. If enabling DAB breaks mob farms, try increasing this value.
+控制 DAB 的梯度。增加此值可使较远的实体更频繁地运算。减少此值可使较远的实体运算的更慢，从而提高 DAB 的性能，但会影响实体与周围环境的互动，并可能破坏刷怪塔。如果启用 DAB 会破坏刷怪塔，请尝试降低此值。
 
 #### enable-async-mob-spawning
 
 `推荐值: true`
 
-If asynchronous mob spawning should be enabled. For this to work, the Paper's per-player-mob-spawns setting must be enabled. This option does not actually spawn mobs asynchronous, but does offload much of the computational effort involved with spawning new mobs to a different thread. Enabling this option should not be noticeable on vanilla gameplay.
+是否应启用异步怪物生成。要使此功能正常工作，必须启用 Paper 中的`per-player-mob-spawns`。此项实际上不会异步生成生物，但会将生成新生物所涉及的大量计算工作转移到不同的线程。对原版生存体验的影响很小。
 
 #### enable-suffocation-optimization
 
 `推荐值: true`
 
-This option optimises a suffocation check (the check to see if a mob is inside a block and if they should take suffocation damage), by rate limiting the check to the damage timeout. This optimisation should be impossible to notice unless you're an extremely technical player who's using tick-precise timing to kill an entity at exactly the right time by suffocation.
+此项将检查速率限制为伤害超时来优化窒息检查（检查生物是否在方块内以及它们是否应该受到窒息伤害）。除非您是生电玩家，能够使用精确计时窒息杀死实体的时间，否则这种优化应该是不可能注意到的。
 
 #### inactive-goal-selector-throttle
 
 `推荐值: true`
 
-Throttles the AI goal selector in entity inactive ticks, causing the inactive entities to update their goal selector every 20 ticks instead of every tick. Can improve performance by a few percent, and has minor gameplay implications.
+在实体非活动时限制其目标选择器，让非活动实体每`20 tick`更新一次其目标选择器，而不是每 tick 更新一次。可以将性能提高几个百分点，而且对游戏体验的影响很小。
 
 ### [purpur.yml]
 
@@ -367,21 +367,21 @@ Throttles the AI goal selector in entity inactive ticks, causing the inactive en
 
 `推荐值: false`
 
-Enabling this will cause zombies to stop targeting villagers if the server is below the tps threshold set with `lagging-threshold` in [purpur.yml].
+当 TPS 低于`lagging-threshold`值 [purpur.yml] 时，启用此项会阻止僵尸追逐村民。
 
 #### entities-can-use-portals
 
 `推荐值: false`
 
-This option can disable portal usage of all entities besides the player. This prevents entities from loading chunks by changing worlds which is handled on the main thread. This has the side effect of entities not being able to go through portals.
+此项决定是否让除玩家之外的所有实体使用传送门。这可以防止实体在主线程上加载不必要的区块，但会破坏一些生电装置或地狱交通。
 
 #### villager.lobotomize.enabled
 
 `推荐值: true`
 
-> This should only be enabled if villagers are causing lag! Otherwise, the pathfinding checks may decrease performance.
+> 仅当村民造成服务器卡顿时才应启用此项！否则，村民寻路会出现问题。
 
-Lobotomized villagers are stripped from their AI and only restock their offers every so often. Enabling this will lobotomize villagers that are unable to pathfind to their destination. Freeing them should unlobotomize them.
+村民被卸载了AI后只会按时补货。启用此项会禁用村民自动寻路。
 
 #### villager.search-radius
 
@@ -392,11 +392,11 @@ Lobotomized villagers are stripped from their AI and only restock their offers e
           nearest-bed-sensor: 16
 ```
 
-Radius within which villagers will search for job site blocks and beds. This significantly boosts performance with large amount of villagers, but will prevent them from detecting job site blocks or beds that are further away than set value.
+该项可以调整村民尝试搜索工作方块和床的半径。这大大提高了村民的性能，但会阻止他们探测到比设定值更远的工作方块或床。
 
 ---
 
-## Misc
+## 杂项
 
 ### [spigot.yml]
 
@@ -409,19 +409,19 @@ Radius within which villagers will search for job site blocks and beds. This sig
       exp: 4.0
 ```
 
-This decides the distance between the items and exp orbs to be merged, reducing the amount of items ticking on the ground. Setting this too high will lead to the illusion of items or exp orbs disappearing as they merge together. Setting this too high will break some farms, as well as allow items to teleport through blocks. There are no checks done to prevent items from merging through walls (unless Paper's `fix-items-merging-through-walls` setting is activated). Exp is only merged on creation.
+此项设置同类物品和经验球合并堆叠的距离，可减少地面未拾取物数量。 设置得太高会导致物品合并时像瞬间传送。也会使得物品穿过方块，可能破坏一些刷怪塔。 此项不会判断物品是否穿过墙壁 （除非开启 Paper 中的`fix-items-merging-through-walls）。经验球仅会在生成时合并。建议使用`alt-item-despawn-rate`来优化掉落物数量。
 
 #### hopper-transfer
 
 `推荐值: 8`
 
-Time in ticks that hoppers will wait to move an item. Increasing this will help improve performance if there are a lot of hoppers on your server, but will break hopper-based clocks and possibly item sorting systems if set too high.
+漏斗移动一个物品的频率（以 tick 为单位）。如果服务器上有大量漏斗，增加此值将有助于提高性能，但如果设置得太高，会破坏基于漏斗的红石计时器，甚至可能破坏物品分类装置。
 
 #### hopper-check
 
 `推荐值: 8`
 
-Time in ticks between hoppers checking for an item above them or in the inventory above them. Increasing this will help performance if there are a lot of hoppers on your server, but will break hopper-based clocks and item sorting systems relying on water streams.
+漏斗检查上方的物品或容器的频率（以 tick 为单位）。如果服务器上有大量漏斗，增加此值将有助于提高性能，但如果设置得太高，会破坏基于漏斗的红石计时器，甚至可能破坏物品分类装置。
 
 ### [paper-world configuration]
 
@@ -460,45 +460,45 @@ Time in ticks between hoppers checking for an item above them or in the inventor
         scaffolding: 600
 ```
 
-This list lets you set alternative time (in ticks) to despawn certain types of dropped items faster or slower than default. This option can be used instead of item clearing plugins along with `merge-radius` to improve performance.
+此项可以设置指定物品消失的时间（tick 为单位）。 建议用此项替代扫地姬或`merge-radius`来提高性能。
 
 #### redstone-implementation
 
 `推荐值: ALTERNATE_CURRENT`
 
-Replaces the redstone system with faster and alternative versions that reduce redundant block updates, lowering the amount of logic your server has to calculate. Using a non-vanilla implementation may introduce minor inconsistencies with very technical redstone, but the performance gains far outweigh the possible niche issues. A non-vanilla implementation option may additionally fix other redstone inconsistencies caused by CraftBukkit.
+将红石系统替换为优化版本，减少冗余更新，降低服务器必须计算的逻辑量。可能会对个别的红石机器产生影响，但其提升利大于弊。甚至还可以修复 Bukkit 造成的红石同步问题。
 
-The `ALTERNATE_CURRENT` implementation is based off of the [Alternate Current](https://modrinth.com/mod/alternate-current) mod. More information on this algorithm can be found on their resource page.
+`ALTERNATE_CURRENT`是基于 [Alternate Current](https://modrinth.com/mod/alternate-current)。 更多信息请阅读该页面。
 
 #### hopper.disable-move-event
 
 `推荐值: false`
 
-`InventoryMoveItemEvent` doesn't fire unless there is a plugin actively listening to that event. This means that you only should set this to true if you have such plugin(s) and don't care about them not being able to act on this event. **Do not set to true if you want to use plugins that listen to this event, e.g. protection plugins!**
+仅当有插件监听`InventoryMoveItemEvent`时才会触发该事件。 **如果您想使用侦听此事件的插件,请不要设置为 true，比如保护插件！**
 
 #### hopper.ignore-occluding-blocks
 
 `推荐值: true`
 
-Determines if hoppers will ignore containers inside full blocks, for example hopper minecart inside sand or gravel block. Keeping this enabled will break some contraptions depending on that behavior.
+确定漏斗是否会忽略完整方块内的容器，例如沙子或沙砾中的漏斗矿车。启用该项可能会破坏一些红石装置。
 
 #### tick-rates.mob-spawner
 
 `推荐值: 2`
 
-This option lets you configure how often spawners should be ticked. Higher values mean less lag if you have a lot of spawners, although if set too high (relative to your spawners delay) mob spawn rates will decrease.
+此项调整刷怪笼的刷新频率。如果服务器有大量刷怪笼，则值越高意味着卡顿越少，但如果设置得太高，怪物刷怪率就会降低。
 
 #### optimize-explosions
 
 `推荐值: true`
 
-Setting this to `true` replaces the vanilla explosion algorithm with a faster one, at a cost of slight inaccuracy when calculating explosion damage. This is usually not noticeable.
+将此项设为`true`可以将原版爆炸算法替换成优化版本，但计算爆炸伤害时会略有不准确。 这通常不影响游戏体验。
 
 #### treasure-maps.enabled
 
 `推荐值: false`
 
-Generating treasure maps is extremely expensive and can hang a server if the structure it's trying to locate is in an ungenerated chunk. It's only safe to enable this if you pregenerated your world and set a vanilla world border.
+生成藏宝图的性能占用极高，如果要定位的结构位于未生成的区块中，服务器甚至可能会未响应。只有在您预生成世界并设置原版世界边界的情况下，启用此功能才是安全的。
 
 #### treasure-maps.find-already-discovered
 
@@ -508,31 +508,31 @@ Generating treasure maps is extremely expensive and can hang a server if the str
       villager-trade: true
 ```
 
-Default value of this option forces the newly generated maps to look for unexplored structure, which are usually in not yet generated chunks. Setting this to true makes it so maps can lead to the structures that were discovered earlier. If you don't change this to `true` you may experience the server hanging or crashing when generating new treasure maps. `villager-trade` is for maps traded by villagers and loot-tables refers to anything that generates loot dynamically like treasure chests, dungeon chests, etc.
+此项的默认值强制新藏宝图寻找未探索过的结构，这些结构通常位于尚未生成的区块中。将其设置为 true 可使地图指向之前发现过的结构。如果不将其更改为 true，在生成新的藏宝图时可能会遇到服务器未响应或崩溃的情况。 `villager-trade`影响村民交易的地图，而`loot-tables`影响任何生成战利品的容器，如宝箱等。
 
 #### tick-rates.grass-spread
 
 `推荐值: 4`
 
-Time in ticks between the server trying to spread grass or mycelium. This will make it so large areas of dirt will take a little longer to turn to grass or mycelium. Setting this to around `4` should work nicely if you want to decrease it without the decreased spread rate being noticeable.
+服务器尝试扩散草方块或菌丝的频率（以 tick 为单位）。这会使大面积泥土需要更长的时间才能变成草或菌丝。如果您想在不明显降低扩散率的情况下优化性能，则将其设置为`4`左右应该不错。
 
 #### tick-rates.container-update
 
 `推荐值: 1`
 
-Time in ticks between container updates. Increasing this might help if container updates cause issues for you (it rarely happens), but makes it easier for players to experience desync when interacting with inventories (ghost items).
+容器更新频率（以 tick 为单位）。如果容器更新带来一些问题（这种情况很少发生），增加此间隔时间可能会有所帮助，但会让玩家在与库存（幽灵物品）交互时更容易遇到不同步的情况。
 
 #### non-player-arrow-despawn-rate
 
 `推荐值: 20`
 
-Time in ticks after which arrows shot by mobs should disappear after hitting something. Players can't pick these up anyway, so you may as well set this to something like `20` (1 second).
+怪物射出的箭消失的时间（以 tick 为单位）。因为玩家无法捡起这些箭，所以您不妨将其设置为`20`（1 秒）之类的值。
 
 #### creative-arrow-despawn-rate
 
 `推荐值: 20`
 
-Time in ticks after which arrows shot by players in creative mode should disappear after hitting something. Players can't pick these up anyway, so you may as well set this to something like `20` (1 second).
+创造模式玩家射出的箭消失的时间（以 tick 为单位）。因为玩家无法捡起这些箭，所以您不妨将其设置为`20`（1 秒）之类的值。
 
 ### [pufferfish.yml]
 
@@ -540,7 +540,7 @@ Time in ticks after which arrows shot by players in creative mode should disappe
 
 `推荐值: true`
 
-This option will disable some additional profiling done by the game. This profiling is not necessary to run in production and can cause additional lag.
+此选项将禁用游戏进行的一些其他性能分析。这些分析是非必需的，并且可能会导致额外的延迟。
 
 ### [purpur.yml]
 
@@ -548,17 +548,17 @@ This option will disable some additional profiling done by the game. This profil
 
 `推荐值: true`
 
-Prevents dolphins from performing structure search similar to treasure maps
+禁止海豚寻宝。
 
 #### teleport-if-outside-border
 
 `推荐值: true`
 
-Allows you to teleport the player to the world spawn if they happen to be outside of the world border. Helpful since the vanilla world border is bypassable and the damage it does to the player can be mitigated.
+如果玩家恰好在世界边界之外，该项会将其传送到世界出生点。这很有用，因为原版世界边界是可绕过的。
 
 ---
 
-## Helpers
+## 辅助项
 
 ### [paper-world configuration]
 
@@ -566,52 +566,52 @@ Allows you to teleport the player to the world spawn if they happen to be outsid
 
 `推荐值: true`
 
-Enable this to hide ores from x-rayers. For detailed configuration of this feature check out [Configuring Anti-Xray](https://docs.papermc.io/paper/anti-xray). Enabling this will actually decrease performance, however it is much more efficient than any anti-xray plugin. In most cases the performance impact will be negligible.
+是否开启 Paper 自带的反矿透。更多信息请查看 [Configuring Anti-Xray](https://docs.papermc.io/paper/anti-xray)。 启用该功能会降低性能，但它比所有的反 xray 插件都更有效。在大多数情况下，对性能的影响可以忽略不计。
 
 #### nether-ceiling-void-damage-height
 
 `推荐值: 127`
 
-If this option is greater that `0`, players above the set y level will be damaged as if they were in the void. This will prevent players from using the nether roof. Vanilla nether is 128 blocks tall, so you should probably set it to `127`. If you modify the height of the nether in any way you should set this to `[your_nether_height] - 1`.
+如果此项大于`0`，地狱此高度之上的玩家就会像坠入虚空一样不断受到伤害。 防止玩家在地狱天花板之上建造建筑，原版地狱为128格高，所以您应该考虑将数值设定为`127`。 如果您以任何方式修改了下界的高度，您应该将其设置为`[地狱高度] - 1`。
 
 ---
 
-# Java startup flags
-[Vanilla Minecraft and Minecraft server software in version 1.20.5+ requires Java 21 or higher](https://docs.papermc.io/java-install-update). Oracle has changed their licensing, and there is no longer a compelling reason to get your java from them. Recommended vendors are [Adoptium](https://adoptium.net/) and [Amazon Corretto](https://aws.amazon.com/corretto/). Alternative JVM implementations such as OpenJ9 or GraalVM can work, however they are not supported by Paper and have been known to cause issues, therefore they are not currently recommended.
+# Java启动参数
+[我的世界1.20.5+ 服务端或客户端需要使用 Java 21 及以上](https://docs.papermc.io/java-install-update)。 Oracle 更改了他们的许可证，并且不再有更好的理由从他们那里获取 Java。 推荐从 [Adoptium](https://adoptium.net/) 或 [Amazon Corretto](https://aws.amazon.com/corretto/) 获取Java。 其他 JVM（例如 OpenJ9 或 GraalVM）也可以运行，但是 Paper 不支持它们并且已知会导致问题，因此目前不推荐使用它们。
 
-Your garbage collector can be configured to reduce lag spikes caused by big garbage collector tasks. You can find startup flags optimized for Minecraft servers [here](https://docs.papermc.io/paper/aikars-flags) [`SOG`]. Keep in mind that this recommendation will not work on alternative JVM implementations.
-It's recommended to use the [flags.sh](https://flags.sh) startup flags generator to get the correct startup flags for your server
+您可以配置垃圾回收（GC）以减少由大型垃圾回收任务引起的卡顿。 您可以找到针对我的世界服务器优化的启动项 [点我](https://docs.papermc.io/paper/aikars-flags) [`SOG`]。
+推荐使用 [flags.sh](https://flags.sh) 来一键生成服务器启动脚本。
 
-In addition, adding the beta flag `--add-modules=jdk.incubator.vector` before `-jar` in your startup flags can improve performance. This flag enables Pufferfish to use SIMD instructions on your CPU, making some maths faster. Currently, it's only used for making rendering in game plugin maps (like imageonmaps) possibly 8 times faster.
+此外，在启动项中添加`--add-modules=jdk.incubator.vector`可提升性能。 此项使 Pufferfish 能够在您的 CPU 上使用 SIMD 指令，从而加快某些数学运算速度。 目前，它仅用于提高地图画的渲染速度至8倍。
 
-# "Too good to be true" plugins
+# 不推荐使用的插件
 
-## Plugins removing ground items
-Absolutely unnecessary since they can be replaced with [merge-radius](#merge-radius) and [alt-item-despawn-rate](#alt-item-despawn-rate) and frankly, they're less configurable than basic server configs. They tend to use more resources scanning and removing items than not removing the items at all.
+## 扫地姬
+请调整 [merge-radius](#merge-radius) 和 [alt-item-despawn-rate](#alt-item-despawn-rate)，而不是使用扫地姬，它们会占用更多的资源来扫描和删除物品。
 
-## Mob stacker plugins
-It's really hard to justify using one. Stacking naturally spawned entities causes more lag than not stacking them at all due to the server constantly trying to spawn more mobs. The only "acceptable" use case is for spawners on servers with a large amount of spawners.
+## 生物堆叠插件
+除非服务器上有大量的刷怪笼，否则对生物进行堆叠仍然会使服务器浪费性能在尝试生成更多的生物上。别用。
 
-## Plugins enabling/disabling other plugins
-Anything that enables or disables plugins on runtime is extremely dangerous. Loading a plugin like that can cause fatal errors with tracking data and disabling a plugin can lead to errors due to removing dependency. The `/reload` command suffers from exact same issues and you can read more about them in [me4502's blog post](https://madelinemiller.dev/blog/problem-with-reload/)
+## 任何用于热加载/卸载的插件
+在运行时启用或禁用是极其危险的。加载这样的插件可能会导致跟踪数据出现错误，而禁用插件则可能因删除依赖项而导致错误。 bukkit 自带的`/reload`命令也存在同样的问题，详细请阅读 [me4502's blog post](https://madelinemiller.dev/blog/problem-with-reload/)。 请使用每个插件自带的`reload`配置文件指令，重启服务器来增加或删除插件。
 
-# What's lagging? - measuring performance
+# 什么是卡顿? - 如何衡量
 
 ## mspt
-Paper offers a `/mspt` command that will tell you how much time the server took to calculate recent ticks. If the first and second value you see are lower than 50, then congratulations! Your server is not lagging! If the third value is over 50 then it means there was at least 1 tick that took longer. That's completely normal and happens from time to time, so don't panic.
+Paper 提供了`/mspt`命令来告诉您服务器计算最近的 tick 所花费的时间。如果您看到的第一个和第二个值低于 50，那么恭喜您！您的服务器没有卡顿！如果第三个值超过 50，则意味着至少有1个 tick 超时了。这是完全正常的，有时会发生，所以不要惊慌。
   
 ## Spark
-[Spark](https://spark.lucko.me/) is a plugin that allows you to profile your server's CPU and memory usage. You can read on how to use it [on its wiki](https://spark.lucko.me/docs/). There's also a guide on how to find the cause of lag spikes [here](https://spark.lucko.me/docs/guides/Finding-lag-spikes).
+[Spark](https://spark.lucko.me/) 是一个允许您分析服务器的 CPU 和内存使用情况的插件。 你可以阅读此文 [点我](https://spark.lucko.me/docs/)。 这里还有关于如何查找卡顿原因的指南 [这里](https://spark.lucko.me/docs/guides/Finding-lag-spikes)。
 
 ## Timings
-Way to see what might be going on when your server is lagging are Timings. Timings is a tool that lets you see exactly what tasks are taking the longest. It's the most basic troubleshooting tool and if you ask for help regarding lag you will most likely be asked for your Timings. Timings is known to have a serious performance impact on servers, it's recommended to use the Spark plugin over Timings and use Purpur or Pufferfish to disable Timings all together.
+Timings 是一款工具，可让您准确了解哪些任务耗时最长。它是最基本的故障排除工具。众所周知，Timings 会对服务器的性能产生严重影响，建议使用 Spark 插件而不是 Timings，并使用 Purpur 或 Pufferfish 禁用 Timings。
 
-To get Timings of your server, you just need to execute the `/timings paste` command and click the link you're provided with. You can share this link with other people to let them help you. It's also easy to misread if you don't know what you're doing. There is a detailed [video tutorial by Aikar](https://www.youtube.com/watch?v=T4J0A9l7bfQ) on how to read them.
+想获取服务器的 Timings, 您只需要输入`/timings paste`指令并复制生成的链接。您可以与其他人分享此链接，以便他们帮助您。 Timings 很容易误读。这里有视频介绍如何阅读它们 [视频 by Aikar](https://www.youtube.com/watch?v=T4J0A9l7bfQ)。
 
 ---
 
-# Minecraft exploits and how to fix them
-To see how to fix exploits that can cause lag spikes or crashes on a Minecraft server, refer to [here](https://github.com/YouHaveTrouble/minecraft-exploits-and-how-to-fix-them).
+# Minecraft 漏洞及其修复方法
+要了解如何修复可能导致服务器卡顿或崩溃的漏洞，请参阅 [这里](https://github.com/YouHaveTrouble/minecraft-exploits-and-how-to-fix-them)。
 
 [`SOG`]: https://www.spigotmc.org/threads/guide-server-optimization%E2%9A%A1.283181/
 [server.properties]: https://docs.papermc.io/paper/reference/server-properties

@@ -1,11 +1,12 @@
-# 我的世界服务器优化指南 - [Minecraft server optimization guide](https://github.com/YouHaveTrouble/minecraft-optimization)
+# 我的世界服务器优化指南中译版 [Minecraft server optimization guide](https://github.com/YouHaveTrouble/minecraft-optimization)
+
+作者：YouHaveTrouble 译者：igoby
 
 对于使用原版Vanilla、Fabric或Spigot（或任何早于Paper的版本）核心的用户，请在server.properties文件中将`sync-chunk-writes`更改为`false`。 这个选项在Paper及其分支中会被强制设置为false，但在一些服务器核心中，您需要手动将其更改为false。 这允许服务器在主线程之外保存区块，从而减轻主线程的负担。
 
 本指南针对1.20. 但一些优化项也可用于 1.15 - 1.19。
 
 本指南基于 [此文](https://www.spigotmc.org/threads/guide-server-optimization%E2%9A%A1.283181/) 以及其他资料来源（所有相关资料在本指南中均有链接）。
-
 
 # 前言 本文仅供参考
 永远不会有一个指南能迎合所有需求。每个服务器都有自己的需求和限制。根据你的服务器需求对选项进行微调，这才是关键所在。本指南的目的只是帮助您了解哪些选项会对性能产生影响，以及它们究竟会改变什么。 如果您认为本指南中的信息或翻译不准确，可以提出Issues或创建Pull requests来更正。

@@ -1,23 +1,23 @@
-# Common pitfalls and best practices
+# 常见误区
 
-This article aims to explain common pitfalls that server owners face.
+本文旨在解释开服会遇到的常见误区。
 
-## Always backup
-There are two types of people - those who make backups, and those who will start making backups. It's just a matter of time when you experience data loss. Always make copies to avoid losing your worlds or plugin data. You can apply this to any computer related workflow, not just minecraft.
+## 记得备份
+世界上有两种人 - 那些做备份的人和那些即将开始做备份的人。数据丢失只是时间问题。始终进行备份以避免丢失您的世界或插件数据。您可以将此应用于任何与计算机相关的工作流程，而不仅仅是 minecraft 服务器。
 
-## Don't use outdated software
-By running outdated software versions you risk players abusing unpatched exploits, including item duplication (infinite items). It also adds an inconvenience factor since your players have to specifically downgrade their client version to match your server. This can be circumvented by using a protocol hack, but it's not ideal.
+## 不要使用过时的版本
+过时的服务端版本，玩家可能会滥用未修补的漏洞，包括物品复制（无限物品）等。这也增加了不便因素，因为玩家必须专门降级其客户端版本才能与您的服务器匹配。虽然可以使用 ViaVersion ，但这并不是理想的选择。
 
-## Don't run Bukkit/Spigot anymore
-Bukkit and Spigot are basically in maintenance mode. They update anytime there's a new version and if a critical exploit is found, but don't add any performance updates. This means any performance issues you may experience on those softwares will never be improved over time. To avoid that, upgrade to [Paper](https://papermc.io/downloads) or [Purpur](https://purpurmc.org/downloads). Bukkit/Spigot plugins will work just as well (maybe even better) with the server software listed. If they don't, then it's safe to assume that the plugin dev is either doing things that they shouldn't or did a negligent job creating their plugin. They also add optimization patches like a chunk loading system that can take advantage of multiple cpu threads or a setting that allows the server to tick less chunks than it actually sends to the player. See the [main optimization guide](https://github.com/YouHaveTrouble/minecraft-optimization) for more details.
+## 不要使用 Bukkit/Spigot
+Bukkit 和 Spigot 基本上处于维护模式。只要有新版本或发现严重漏洞，它们就会更新，但不添加任何性能更新。这意味着您在这些软件上遇到的任何性能问题都不会随着时间的推移而得到改善。为了避免这种情况，请升级到 [Paper](https://papermc.io/downloads) 或 [Purpur](https://purpurmc.org/downloads)。Bukkit/Spigot 插件可以在 Paper 以及其 fork 服务端工作（甚至更好）。如果它们不工作，那么基本可以确定插件开发人员要么在做他们不应该做的事情，要么在创建插件时疏忽大意了。Paper 还添加了优化补丁，例如可以利用多个 CPU 线程的区块加载系统。有关更多详细信息，请参阅 [正文](https://github.com/igoby/minecraft-optimization)。
 
-## Avoid shared hosting if possible
-Shared hosts are usually the cheapest option, and that's for a valid reason. They offer you 2 types of resources - guaranteed and shared. Guaranteed resources are usually laughably low and may not be enough to run a server for a few players. Shared resources on the other hand are usually enough to run a server with decent performance. There is a catch, though; shared resources, like the name implies, are shared between your server and other servers on the same physical machine. Your server can only benefit from having them when no other server uses them. The situation where your server fully utilises shared resources is pretty much impossible to happen, as most shared hosts oversell their resources. Like airplane tickets, the hosting site sells more resources than they have available in hopes that not all of them will be used. This often leads to situations where all servers are bogged down because there aren't enough resources to spare.
+## 尽可能避免面板服（非原文翻译）
+面板服通常是最便宜的选择，而且看起来配置还不错，但是有一个问题；共享资源，顾名思义，是在同一台物理机器上的您的服务器和其他服务器之间共享的。只有当没有其他服务器使用它们时，您的服务器才能从拥有它们中受益。您的服务器充分利用共享资源的情况几乎不可能发生，因为大多数面板服务商都超售。就像机票一样，托管网站出售的资源比他们实际可用的资源多。这通常会导致所有服务器都陷入困境，因为没有足够的资源可供使用。
 
-## Avoid datapacks that use command functions
-Datapacks that run commands are extremely laggy. It may not be much with a few players on, but that doesn't scale well with the playercount and will lag your server pretty quickly as you gain players. Datapacks that modify biomes, loot tables, etc are fine. You're better off looking for a plugin alternative.
+## 避免使用命令函数数据包
+运行命令函数的数据包非常卡顿。如果玩家人数少，可能没什么问题，但随着玩家数量的增加，这种情况会变得很不理想。但修改生物群系、战利品表等的数据包没啥大问题。你最好寻找一个插件替代品。
 
-## Choosing hardware
-Don't just go off of how much RAM you need. You should instead focus on what kind of CPU you should use, since the CPU is the most important part of the server. You want something that [ranks good on single core performance](https://www.cpubenchmark.net/singleThread.html), as a server mainly runs on one thread. Multiple threads are utilised for quite some time now in systems like async chunk loading on paper, however.
+## 选择硬件
+不要只考虑需要多少运行内存。你应该关注应该使用哪种 CPU，因为 CPU 是服务器最重要的部分。你需要查看 [单核性能排名](https://www.cpubenchmark.net/singleThread.html)，因为服务器主要运行在单线程上。然而，理论上来说，在异步区块加载等系统中，多线程已经投入使用很长时间了。
 
-You should absolutely avoid Hard Drives (HDDs). Their speeds are simply way too slow to justify running a server on them since minecraft is heavy on I/O operations (especially with high view distances and higher player counts). A Solid State drive (SSD) is a far better choice because of it's much faster I/O.
+您应该避免使用机械硬盘 (HDD)。它们的速度实在太慢，因为 minecraft 的 I/O 操作繁重（尤其是在远视距和玩家数量较多的情况下）。固态硬盘 (SSD) 是很好的选择，因为它的 I/O 速度更快。

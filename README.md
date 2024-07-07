@@ -4,7 +4,7 @@
 
 对于使用原版Vanilla、Fabric或Spigot（或任何早于Paper的版本）核心的用户，请在server.properties文件中将`sync-chunk-writes`更改为`false`。 这个选项在Paper及其分支中会被强制设置为false，但在一些服务器核心中，您需要手动将其更改为false。 这允许服务器在主线程之外保存区块，从而减轻主线程的负担。
 
-本指南针对1.20. 但一些优化项也可用于 1.15 - 1.19。
+本指南针对 1.20 但一些优化项也可用于 1.15 - 1.19。
 
 本指南基于 [此文](https://www.spigotmc.org/threads/guide-server-optimization%E2%9A%A1.283181/) 以及其他资料来源（所有相关资料在本指南中均有链接）。
 

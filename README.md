@@ -580,12 +580,14 @@ DAB（大脑动态激活）会随着实体与玩家距离的增大而减少实�
 ---
 
 # Java启动参数
-[我的世界1.20.5+ 服务端或客户端需要使用 Java 21 及以上](https://docs.papermc.io/java-install-update)。 Oracle 更改了他们的许可证，并且不再有更好的理由从他们那里获取 Java。 推荐从 [Adoptium](https://adoptium.net/) 或 [Amazon Corretto](https://aws.amazon.com/corretto/) 获取Java。 其他 JVM（例如 OpenJ9 或 GraalVM）也可以运行，但是 Paper 不支持它们并且已知会导致问题，因此目前不推荐使用它们。
+[我的世界1.20.5+ 服务端或客户端需要使用 Java 21 及以上](https://docs.papermc.io/java-install-update)。
 
 您可以配置垃圾回收（GC）以减少由大型垃圾回收任务引起的卡顿。 您可以找到针对我的世界服务器优化的启动项 [点我](https://docs.papermc.io/paper/aikars-flags) [`SOG`]。
-推荐使用 [flags.sh](https://flags.sh) 来一键生成服务器启动脚本。
+可以使用 [flags.sh](https://flags.sh) 来一键生成服务器启动脚本。
 
 此外，在启动项中添加`--add-modules=jdk.incubator.vector`可提升性能。 此项使 Pufferfish 能够在您的 CPU 上使用 SIMD 指令，从而加快某些数学运算速度。 目前，它仅用于提高地图画的渲染速度至8倍。
+
+更多信息请查看：https://github.com/Mukul1127/Minecraft-Performance-Flags-Benchmarks
 
 # 不推荐使用的插件
 
